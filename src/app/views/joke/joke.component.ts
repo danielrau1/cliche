@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {JokeTellerService} from '../../models/joke-teller.service';
+
 
 @Component({
   selector: 'app-joke',
   templateUrl: './joke.component.html',
   styleUrls: ['./joke.component.scss']
 })
-export class JokeComponent implements OnInit {
+export class JokeComponent {
 joke: string;
 
-  constructor(private dad: JokeTellerService) { }
+refresh: EventEmitter<null> = new EventEmitter<null>();
 
-  ngOnInit() {
-    this.dad.tellJoke().subscribe(res => {
-      this.joke = res.joke;
-      }
-
-    );
+constructor(private dad: JokeTellerService) {
+this.updateJoke();
   }
+
+updateJoke(): void {
+this.dad.tellJoke().subscribe(res => {
+  this.joke = res.joke;
+});
+}
+
 
 }
 
